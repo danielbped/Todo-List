@@ -30,11 +30,11 @@ const remove = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const post = await Task.findOne({
+    const task = await Task.findOne({
       where: { id }
     });
 
-    if (!post) {
+    if (!task) {
       res.status(StatusCodes.NOT_FOUND).json({ message: ErrorMessages.taskNotFound })
     }
 
@@ -46,10 +46,39 @@ const remove = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
+};
+
+const update = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { title, content } = req.body;
+
+    const task = await Task.findOne({
+      where: { id }
+    });
+
+    if (!task) {
+      res.status(StatusCodes.NOT_FOUND).json({ message: ErrorMessages.taskNotFound })
+    }
+
+    const updatedTask = { title, content, updated: new Date() }
+
+    await Task.update(
+      { ...updatedTask }, 
+      { where: { id } }
+    )
+
+    res.status(StatusCodes.OK).json({
+      updatedTask
+    })
+  } catch (err) {
+    next(err)
+  }
+};
 
 module.exports = {
   create,
   getAll,
   remove,
+  update
 }
