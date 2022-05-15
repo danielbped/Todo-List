@@ -48,8 +48,20 @@ const isEmailValid = (req, res, next) => {
   next();
 }
 
+const isPasswordValid = (req, res, next) => {
+  const { password } = req.body;
+
+  if (password.length < 6) {
+    return res.status(StatusCodes.BAD_REQUEST)
+      .json({ message: errorMessages.invalidPassword })
+  }
+
+  next()
+}
+
 module.exports = {
   isNameValid,
   isUsernameValid,
   isEmailValid,
+  isPasswordValid
 }
