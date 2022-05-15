@@ -26,13 +26,18 @@ const getAll = async (_req, res, next) => {
   }
 };
 
-const findOne = async (req, res, next) => {
+const findById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const task = await Task.findOne({
       where: { id }
     });
+
+    if (!task) {
+      return res.status(StatusCodes.NOT_FOUND)
+        .json({ message: ErrorMessages.taskNotFound })
+    }
 
     res.status(StatusCodes.OK).json(task)
   } catch (err) {
@@ -91,7 +96,7 @@ const update = async (req, res, next) => {
 module.exports = {
   create,
   getAll,
-  findOne,
+  findById,
   remove,
   update
 }

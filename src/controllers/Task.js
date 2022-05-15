@@ -4,7 +4,7 @@ const Task = require('../services/Task');
 const router = Router({ mergeParams: true });
 
 router.get('/', Task.getAll);
-router.get('/:id', Task.findOne);
+router.get('/:id', Task.findById);
 router.post('/', Task.create);
 router.put('/:id', Task.update);
 router.delete('/:id', Task.remove);
