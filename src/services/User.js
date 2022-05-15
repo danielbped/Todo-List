@@ -2,6 +2,7 @@ const { StatusCodes } = require('http-status-codes');
 const { User } = require('../models');
 const bcrypt = require('bcrypt');
 const tokenGenerator = require('../middlewares/User/tokenGenerator');
+const ErrorMessages = require('../utils/ErrorMessages');
 
 const SALT_ROUNDS = 10;
 
@@ -42,7 +43,27 @@ const getAll = async (_req, res, next) => {
   }
 }
 
+const findById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findOne({
+      where: { id }
+    })
+
+    if (!user) {
+      return res.status(StatusCodes.NOT_FOUND)
+        .json({ message: ErrorMessages.userNotFound })
+    }
+    
+    res.status(StatusCodes.OK).json({ user });
+  } catch (err) {
+    next(err)
+  }
+}
+
 module.exports = {
   create,
   getAll,
+  findById,
 }

@@ -14,6 +14,8 @@ router.post('/',
 
 router.get('/', User.getAll);
 
+router.get('/:id', User.findById);
+
 module.exports = (root) => {
   root.use('/user', router);
 }
