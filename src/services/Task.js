@@ -15,6 +15,17 @@ const create = async (req, res, next) => {
   }
 };
 
+const getAll = async (_req, res, next) => {
+  try {
+    const tasks = await Task.findAll();
+
+    res.status(StatusCodes.OK).json(tasks)
+  } catch (err) {
+    next(err)
+  }
+};
+
 module.exports = {
-  create
+  create,
+  getAll,
 }
