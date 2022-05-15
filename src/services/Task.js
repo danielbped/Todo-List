@@ -75,7 +75,7 @@ const update = async (req, res, next) => {
       res.status(StatusCodes.NOT_FOUND).json({ message: ErrorMessages.taskNotFound })
     }
 
-    const updatedTask = { title, content, updated: new Date() }
+    const updatedTask = { title, content, updated: new Date(), status }
 
     await Task.update(
       { ...updatedTask }, 
