@@ -1,5 +1,6 @@
 const { StatusCodes } = require('http-status-codes');
 const { Task } = require('../models');
+const ErrorMessages = require('../utils/ErrorMessages');
 
 const create = async (req, res, next) => {
   try {
@@ -25,7 +26,30 @@ const getAll = async (_req, res, next) => {
   }
 };
 
+const remove = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const post = await Task.findOne({
+      where: { id }
+    });
+
+    if (!post) {
+      res.status(StatusCodes.NOT_FOUND).json({ message: ErrorMessages.taskNotFound })
+    }
+
+    await Task.destroy({
+      where: { id }
+    });
+
+    res.status(StatusCodes.OK).end();
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   create,
   getAll,
+  remove,
 }
