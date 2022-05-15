@@ -25,7 +25,7 @@ const create = async (req, res, next) => {
 
     const token = await tokenGenerator(user);
 
-    res.status(StatusCodes.CREATED).json({ token })
+    return res.status(StatusCodes.CREATED).json({ token })
 
   } catch (err) {
     next(err);

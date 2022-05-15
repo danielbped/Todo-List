@@ -9,12 +9,14 @@ const isNameValid = (req, res, next) => {
   const isNumberRegex = /\D/;
 
   if (firstName.lenght < MIN_SIZE || lastName.lenght < MIN_SIZE) {
-    return res.status(StatusCodes.BAD_REQUEST).json({ message: errorMessages.invalidNameLength })
+    return res.status(StatusCodes.BAD_REQUEST)
+      .json({ message: errorMessages.invalidNameLength })
   }
 
   for (let letter of fullName.split('')) {
     if(!isNumberRegex.test(letter)) {
-      return res.status(StatusCodes.BAD_REQUEST).json({ message: errorMessages.invalidNameCharacter })
+      return res.status(StatusCodes.BAD_REQUEST)
+        .json({ message: errorMessages.invalidNameCharacter })
     }
   }
 
@@ -25,17 +27,29 @@ const isUsernameValid = (req, res, next) => {
   const { userName } = req.body;
   
   if (userName.lenght < MIN_SIZE) {
-    return res.status(StatusCodes.BAD_REQUEST).json({ message: errorMessages.invalidUsernameLength })
+    return res.status(StatusCodes.BAD_REQUEST)
+      .json({ message: errorMessages.invalidUsernameLength })
   }
 
-  next()
+  next();
 }
 
-const createUserValidation = (req, res, next) => {
-  isNameValid(req, res, next);
-  isUsernameValid(req, res, next);
-};
+const isEmailValid = (req, res, next) => {
+  const { email } = req.body;
+
+  const emailRegex = /.+@\w+\.\w+(\.\w{2,3})?/;
+  const validEmail = emailRegex.test(email);
+
+  if (!validEmail) {
+    return res.status(StatusCodes.BAD_REQUEST)
+      .json({ message: errorMessages.invalidEmail });
+  }
+
+  next();
+}
 
 module.exports = {
-  createUserValidation,
+  isNameValid,
+  isUsernameValid,
+  isEmailValid,
 }
