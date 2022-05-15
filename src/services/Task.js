@@ -6,7 +6,7 @@ const create = async (req, res, next) => {
   try {
     const { title, content } = req.body;
 
-    const task = { title, content, created: new Date(), updated: new Date() };
+    const task = { title, content, created: new Date(), updated: new Date(), status: 'UNDONE' };
 
     const { id } = await Task.create(task);
 
@@ -65,7 +65,7 @@ const remove = async (req, res, next) => {
 const update = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { title, content } = req.body;
+    const { title, content, status } = req.body;
 
     const task = await Task.findOne({
       where: { id }
