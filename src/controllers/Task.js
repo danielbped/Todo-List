@@ -3,10 +3,11 @@ const Task = require('../services/Task');
 
 const router = Router({ mergeParams: true });
 
-router.post('/', Task.create);
 router.get('/', Task.getAll);
-router.delete('/:id', Task.remove);
+router.get('/:id', Task.findOne);
+router.post('/', Task.create);
 router.put('/:id', Task.update);
+router.delete('/:id', Task.remove);
 
 module.exports = (root) => {
   root.use('/task', router)

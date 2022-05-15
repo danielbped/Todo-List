@@ -26,6 +26,20 @@ const getAll = async (_req, res, next) => {
   }
 };
 
+const findOne = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const task = await Task.findOne({
+      where: { id }
+    });
+
+    res.status(StatusCodes.OK).json(task)
+  } catch (err) {
+    next(err)
+  }
+};
+
 const remove = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -68,9 +82,7 @@ const update = async (req, res, next) => {
       { where: { id } }
     )
 
-    res.status(StatusCodes.OK).json({
-      updatedTask
-    })
+    res.status(StatusCodes.OK).json({ updatedTask })
   } catch (err) {
     next(err)
   }
@@ -79,6 +91,7 @@ const update = async (req, res, next) => {
 module.exports = {
   create,
   getAll,
+  findOne,
   remove,
   update
 }
