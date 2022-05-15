@@ -1,13 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const StatusCodes = require('http-status-codes').StatusCodes;
+const error = require('../middlewares/error')
+const root = require('../controllers/root');
 
 const app = express();
 
 app.use(bodyParser.json());
 
-app.get('/teste', (req, res) => {
-  res.status(StatusCodes.OK).json({ message: 'ok' })
-})
+root(app);
+error(app);
 
 module.exports = app;

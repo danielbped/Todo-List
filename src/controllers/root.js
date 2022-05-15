@@ -6,9 +6,9 @@ const login = require('./Login');
 
 const root = express.Router({ mergeParams: true });
 
-user(root);
+// user(root);
 task(root);
-login(root);
+// login(root);
 
 module.exports = (app) => {
   app.use('/', root)
