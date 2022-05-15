@@ -12,6 +12,8 @@ router.post('/',
   User.create
 );
 
+router.get('/', User.getAll);
+
 module.exports = (root) => {
   root.use('/user', router);
 }
