@@ -13,10 +13,10 @@ router.post('/',
 );
 
 router.get('/', User.getAll);
-
+router.get('/', User.findByEmail)
 router.get('/:id', User.findById);
-
 router.delete('/:id', User.remove);
+
 
 module.exports = (root) => {
   root.use('/user', router);

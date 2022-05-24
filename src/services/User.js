@@ -62,16 +62,36 @@ const findById = async (req, res, next) => {
   }
 }
 
+const findByEmail = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({
+      where: { email }
+    })
+
+    if (!user) {
+      res.status(StatusCodes.NOT_FOUND)
+        .json({ message: ErrorMessages.userNotFound })
+    }
+
+    res.status(StatusCodes.OK).json({ user })
+  } catch (err) {
+    next(err)
+  }
+}
+
 const remove = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const task = await User.findOne({
+    const user = await User.findOne({
       where: { id },
     })
 
-    if (!task) {
-      res.status(StatusCodes.NOT_FOUND).json({ message: ErrorMessages.userNotFound })
+    if (!user) {
+      res.status(StatusCodes.NOT_FOUND)
+        .json({ message: ErrorMessages.userNotFound })
     }
 
     await User.destroy({
@@ -88,5 +108,6 @@ module.exports = {
   create,
   getAll,
   findById,
-  remove
+  remove,
+  findByEmail
 }
