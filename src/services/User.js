@@ -104,10 +104,49 @@ const remove = async (req, res, next) => {
   }
 }
 
+const update = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const {
+      firstName,
+      lastName,
+      userName,
+      email,
+    } = res.body;
+
+    const editedUser = {
+      firstName,
+      lastName,
+      userName,
+      email,
+      updated: new Date(),
+    }
+
+    const user = await User.findOne({
+      where: { id }
+    })
+
+    if (!user) {
+      res.status(StatusCodes.NOT_FOUND)
+        .json({ message: ErrorMessages.userNotFound })
+    }
+
+    await Task.update(
+      { ...editedUser },
+      { where: { id }}
+    )
+
+    res.status(StatusCodes.OK).json({ editedUser })
+  } catch (err) {
+    next(err)
+  }
+}
+
 module.exports = {
   create,
   getAll,
   findById,
   remove,
-  findByEmail
+  findByEmail,
+  update
 }
