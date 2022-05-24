@@ -62,8 +62,31 @@ const findById = async (req, res, next) => {
   }
 }
 
+const remove = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const task = await User.findOne({
+      where: { id },
+    })
+
+    if (!task) {
+      res.status(StatusCodes.NOT_FOUND).json({ message: ErrorMessages.userNotFound })
+    }
+
+    await User.destroy({
+      where: { id },
+    })
+
+    res.status(StatusCodes.OK).end()
+  } catch (err) {
+    next(err)
+  }
+}
+
 module.exports = {
   create,
   getAll,
   findById,
+  remove
 }

@@ -16,6 +16,8 @@ router.get('/', User.getAll);
 
 router.get('/:id', User.findById);
 
+router.delete('/:id', User.remove);
+
 module.exports = (root) => {
   root.use('/user', router);
 }
