@@ -5,5 +5,6 @@ module.exports = {
   invalidUsernameLength: '"Username" length must be higher than 3',
   invalidEmail: 'invalid "email"',
   invalidPassword: '"password" length must be higher than 6',
-  userNotFound: 'User not found'
+  userNotFound: 'User not found',
+  wrongPassword: 'Wrong password',
 }
