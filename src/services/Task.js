@@ -1,38 +1,38 @@
-const { StatusCodes } = require('http-status-codes');
-const { Task } = require('../models');
-const ErrorMessages = require('../utils/ErrorMessages');
+const { StatusCodes } = require('http-status-codes')
+const { Task } = require('../models')
+const ErrorMessages = require('../utils/ErrorMessages')
 
 const create = async (req, res, next) => {
   try {
-    const { title, content } = req.body;
+    const { title, content } = req.body
 
-    const task = { title, content, created: new Date(), updated: new Date(), status: 'UNDONE' };
+    const task = { title, content, created: new Date(), updated: new Date(), status: 'UNDONE' }
 
-    const { id } = await Task.create(task);
+    const { id } = await Task.create(task)
 
     res.status(StatusCodes.CREATED).json({ id, ...task })
   } catch (err) {
     next(err)
   }
-};
+}
 
 const getAll = async (_req, res, next) => {
   try {
-    const tasks = await Task.findAll();
+    const tasks = await Task.findAll()
 
     res.status(StatusCodes.OK).json(tasks)
   } catch (err) {
     next(err)
   }
-};
+}
 
 const findById = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { id } = req.params
 
     const task = await Task.findOne({
       where: { id }
-    });
+    })
 
     if (!task) {
       return res.status(StatusCodes.NOT_FOUND)
@@ -43,15 +43,15 @@ const findById = async (req, res, next) => {
   } catch (err) {
     next(err)
   }
-};
+}
 
 const remove = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { id } = req.params
 
     const task = await Task.findOne({
       where: { id }
-    });
+    })
 
     if (!task) {
       res.status(StatusCodes.NOT_FOUND).json({ message: ErrorMessages.taskNotFound })
@@ -59,22 +59,22 @@ const remove = async (req, res, next) => {
 
     await Task.destroy({
       where: { id }
-    });
+    })
 
-    res.status(StatusCodes.OK).end();
+    res.status(StatusCodes.OK).end()
   } catch (err) {
-    next(err);
+    next(err)
   }
-};
+}
 
 const update = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const { title, content, status } = req.body;
+    const { id } = req.params
+    const { title, content, status } = req.body
 
     const task = await Task.findOne({
       where: { id }
-    });
+    })
 
     if (!task) {
       res.status(StatusCodes.NOT_FOUND).json({ message: ErrorMessages.taskNotFound })
@@ -91,7 +91,7 @@ const update = async (req, res, next) => {
   } catch (err) {
     next(err)
   }
-};
+}
 
 module.exports = {
   create,

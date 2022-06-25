@@ -1,13 +1,13 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+const express = require('express')
+const bodyParser = require('body-parser')
 const error = require('../middlewares/error')
-const root = require('../controllers/root');
+const root = require('../controllers/root')
 
-const app = express();
+const app = express()
 
-app.use(bodyParser.json());
+app.use(bodyParser.json())
 
-root(app);
-error(app);
+root(app)
+error(app)
 
-module.exports = app;
+module.exports = app

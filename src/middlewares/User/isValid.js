@@ -1,12 +1,12 @@
-const { StatusCodes } = require('http-status-codes');
-const errorMessages = require('../../utils/ErrorMessages');
+const { StatusCodes } = require('http-status-codes')
+const errorMessages = require('../../utils/ErrorMessages')
 
-const MIN_SIZE = 4;
+const MIN_SIZE = 4
 
 const isNameValid = (req, res, next) => {
-  const { firstName, lastName } = req.body;
-  const fullName = firstName + lastName;
-  const isNumberRegex = /\D/;
+  const { firstName, lastName } = req.body
+  const fullName = firstName + lastName
+  const isNumberRegex = /\D/
 
   if (firstName.lenght < MIN_SIZE || lastName.lenght < MIN_SIZE) {
     return res.status(StatusCodes.BAD_REQUEST)
@@ -20,36 +20,36 @@ const isNameValid = (req, res, next) => {
     }
   }
 
-  next();
+  next()
 }
 
 const isUsernameValid = (req, res, next) => {
-  const { userName } = req.body;
+  const { userName } = req.body
   
   if (userName.lenght < MIN_SIZE) {
     return res.status(StatusCodes.BAD_REQUEST)
       .json({ message: errorMessages.invalidUsernameLength })
   }
 
-  next();
+  next()
 }
 
 const isEmailValid = (req, res, next) => {
-  const { email } = req.body;
+  const { email } = req.body
 
-  const emailRegex = /.+@\w+\.\w+(\.\w{2,3})?/;
-  const validEmail = emailRegex.test(email);
+  const emailRegex = /.+@\w+\.\w+(\.\w{2,3})?/
+  const validEmail = emailRegex.test(email)
 
   if (!validEmail) {
     return res.status(StatusCodes.BAD_REQUEST)
-      .json({ message: errorMessages.invalidEmail });
+      .json({ message: errorMessages.invalidEmail })
   }
 
-  next();
+  next()
 }
 
 const isPasswordValid = (req, res, next) => {
-  const { password } = req.body;
+  const { password } = req.body
 
   if (password.length < 6) {
     return res.status(StatusCodes.BAD_REQUEST)
