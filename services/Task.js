@@ -20,7 +20,7 @@ const getAll = async (_req, res, next) => {
   try {
     const tasks = await Task.findAll()
 
-    res.status(StatusCodes.OK).json(tasks)
+    res.status(StatusCodes.OK).json({ tasks })
   } catch (err) {
     next(err)
   }
@@ -39,7 +39,7 @@ const findById = async (req, res, next) => {
         .json({ message: ErrorMessages.taskNotFound })
     }
 
-    res.status(StatusCodes.OK).json(task)
+    res.status(StatusCodes.OK).json({ task })
   } catch (err) {
     next(err)
   }

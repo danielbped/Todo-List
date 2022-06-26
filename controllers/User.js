@@ -15,12 +15,7 @@ router.get('/', User.getAll)
 router.get('/', User.findByEmail)
 router.get('/:id', User.findById)
 router.delete('/:id', User.remove)
-router.put('/:id',
-  isEmailValid,
-  isNameValid,
-  isUsernameValid,
-  User.update
-)
+router.put('/:id', User.update)
 
 
 module.exports = (root) => {

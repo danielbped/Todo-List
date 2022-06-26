@@ -3,6 +3,7 @@ const { User } = require('../models')
 const bcrypt = require('bcrypt')
 const tokenGenerator = require('../middlewares/User/tokenGenerator')
 const ErrorMessages = require('../utils/ErrorMessages')
+const { isEmailValid, isNameValid, isUsernameValid } = require('../middlewares/User/isValid')
 
 const SALT_ROUNDS = 10
 
@@ -129,7 +130,7 @@ const update = async (req, res, next) => {
       lastName,
       userName,
       email,
-    } = res.body
+    } = req.body
 
     const editedUser = {
       firstName,
@@ -148,12 +149,12 @@ const update = async (req, res, next) => {
         .json({ message: ErrorMessages.userNotFound })
     }
 
-    await Task.update(
+    await User.update(
       { ...editedUser },
       { where: { id }}
     )
 
-    res.status(StatusCodes.OK).json({ editedUser })
+    return res.status(StatusCodes.OK).json({ editedUser })
   } catch (err) {
     next(err)
   }

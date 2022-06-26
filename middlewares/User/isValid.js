@@ -20,7 +20,7 @@ const isNameValid = (req, res, next) => {
     }
   }
 
-  next()
+  return next()
 }
 
 const isUsernameValid = (req, res, next) => {
@@ -31,7 +31,7 @@ const isUsernameValid = (req, res, next) => {
       .json({ message: errorMessages.invalidUsernameLength })
   }
 
-  next()
+  return next()
 }
 
 const isEmailValid = (req, res, next) => {
@@ -45,7 +45,7 @@ const isEmailValid = (req, res, next) => {
       .json({ message: errorMessages.invalidEmail })
   }
 
-  next()
+  return next()
 }
 
 const isPasswordValid = (req, res, next) => {
@@ -56,7 +56,7 @@ const isPasswordValid = (req, res, next) => {
       .json({ message: errorMessages.invalidPassword })
   }
 
-  next()
+  return next()
 }
 
 module.exports = {
