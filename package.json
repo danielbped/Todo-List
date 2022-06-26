@@ -2,7 +2,7 @@
   "name": "todo-list_api",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/api/server.js",
+  "main": "./api/server.js",
   "scripts": {
     "start": "npx sequelize db:create && npx sequelize db:migrate && node .",
     "dev": "nodemon ."
