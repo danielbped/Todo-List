@@ -6,8 +6,8 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 module.exports = (req) => {
+  const { authorization } = req.body;
   const secret = process.env.SECRET || 'secret'
-  const { authorization } = req.headers
 
   if (!authorization){
     return res.status(StatusCodes.BAD_REQUEST).json({
@@ -23,5 +23,5 @@ module.exports = (req) => {
     })
   }
 
-  return user
+  return user.role === 'admin'
 }
