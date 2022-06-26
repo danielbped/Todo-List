@@ -22,7 +22,6 @@ module.exports = (req, res, next) => {
       message: errorMessages.userNotFound
     })
   }
-  console.log(user);
 
   if (user.data.role !== 'admin') {
     return res.status(StatusCodes.FORBIDDEN).end()

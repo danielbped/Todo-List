@@ -1,5 +1,6 @@
 const { StatusCodes } = require('http-status-codes')
 const errorMessages = require('../../utils/ErrorMessages')
+const { User } = require('../../models')
 
 const MIN_SIZE = 4
 
@@ -23,18 +24,24 @@ const isNameValid = (req, res, next) => {
   return next()
 }
 
-const isUsernameValid = (req, res, next) => {
+const isUsernameValid = async (req, res, next) => {
   const { userName } = req.body
   
   if (userName.lenght < MIN_SIZE) {
     return res.status(StatusCodes.BAD_REQUEST)
-      .json({ message: errorMessages.invalidUsernameLength })
+    .json({ message: errorMessages.invalidUsernameLength })
+  }
+  
+  const user = await User.findOne({  where: { userName }})
+  
+  if (user) {
+    return res.status(StatusCodes.BAD_REQUEST).json({ message: errorMessages.usernameAlreadyExists })
   }
 
   return next()
 }
 
-const isEmailValid = (req, res, next) => {
+const isEmailValid = async (req, res, next) => {
   const { email } = req.body
 
   const emailRegex = /.+@\w+\.\w+(\.\w{2,3})?/
@@ -43,6 +50,12 @@ const isEmailValid = (req, res, next) => {
   if (!validEmail) {
     return res.status(StatusCodes.BAD_REQUEST)
       .json({ message: errorMessages.invalidEmail })
+  }
+
+  const user = await User.findOne({ where: { email } })
+
+  if (user) {
+    return res.status(StatusCodes.BAD_REQUEST).json({ message: errorMessages.emailAlreadyRegistered })
   }
 
   return next()

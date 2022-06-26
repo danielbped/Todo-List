@@ -8,4 +8,6 @@ module.exports = {
   userNotFound: 'User not found',
   wrongPassword: 'Wrong password',
   authorizationNotFound: 'Authorization not found',
+  usernameAlreadyExists: 'User with this username already exists',
+  emailAlreadyRegistered: 'Email already registered',
 }
