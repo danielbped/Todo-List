@@ -10,10 +10,11 @@ const jwtConfig = {
   algorithm: 'HS256',
 }
 
-const tokenGenerator = async ({ email, password }) => {
+const tokenGenerator = async ({ email, password, role }) => {
   const data = {
     email,
     password,
+    role
   }
 
   const token = jwt.sign({ data }, secret, jwtConfig)
