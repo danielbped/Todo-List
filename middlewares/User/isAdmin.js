@@ -6,7 +6,7 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 module.exports = (req) => {
-  const { authorization } = req.body;
+  const { authorization } = req.body
   const secret = process.env.SECRET || 'secret'
 
   if (!authorization){

@@ -17,4 +17,4 @@ module.exports = {
     host: 3000,
     dialect: 'mysql',
   }
-};
+}
