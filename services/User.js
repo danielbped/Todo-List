@@ -3,7 +3,6 @@ const { User } = require('../models')
 const bcrypt = require('bcrypt')
 const tokenGenerator = require('../middlewares/User/tokenGenerator')
 const ErrorMessages = require('../utils/ErrorMessages')
-const { isEmailValid, isNameValid, isUsernameValid } = require('../middlewares/User/isValid')
 
 const SALT_ROUNDS = 10
 
@@ -19,6 +18,7 @@ const create = async (req, res, next) => {
       userName,
       password: cryptedPassword,
       email,
+      role: 'user',
       created: new Date(),
       updated: new Date()
     }

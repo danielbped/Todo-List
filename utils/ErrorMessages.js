@@ -7,4 +7,5 @@ module.exports = {
   invalidPassword: '"password" length must be higher than 6',
   userNotFound: 'User not found',
   wrongPassword: 'Wrong password',
+  authorizationNotFound: 'Authorization not found',
 }

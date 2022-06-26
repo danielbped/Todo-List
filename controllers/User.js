@@ -1,4 +1,5 @@
 const { Router } = require('express')
+const isAuthenticated = require('../middlewares/User/isAuthenticated')
 const { isEmailValid, isNameValid, isUsernameValid, isPasswordValid } = require('../middlewares/User/isValid')
 const User = require('../services/User')
 
@@ -11,7 +12,7 @@ router.post('/',
   isPasswordValid,
   User.create
 )
-router.get('/', User.getAll)
+router.get('/', isAuthenticated, User.getAll)
 router.get('/', User.findByEmail)
 router.get('/:id', User.findById)
 router.delete('/:id', User.remove)
