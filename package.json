@@ -5,7 +5,7 @@
   "main": "./api/server.js",
   "scripts": {
     "start": "npx sequelize db:create && npx sequelize db:migrate && node .",
-    "dev": "nodemon ."
+    "dev": "npx sequelize db:create && npx sequelize db:migrate && nodemon ."
   },
   "keywords": [],
   "author": "",
