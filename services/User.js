@@ -34,6 +34,34 @@ const create = async (req, res, next) => {
   }
 }
 
+const createAdmin = async (req, res, next) => {
+  try {
+    const { firstName, lastName, userName, password, email } = req.body
+
+    const cryptedPassword = bcrypt.hashSync(password, SALT_ROUNDS)
+
+    const user = {
+      firstName,
+      lastName,
+      userName,
+      password: cryptedPassword,
+      email,
+      role: 'admin',
+      created: new Date(),
+      updated: new Date()
+    }
+
+    await User.create(user)
+
+    const token = await tokenGenerator(user)
+
+    return res.status(StatusCodes.CREATED).json({ token })
+
+  } catch (err) {
+    next(err)
+  }
+}
+
 const getAll = async (_req, res, next) => {
   try {
     const users = await User.findAll()
@@ -167,5 +195,6 @@ module.exports = {
   remove,
   findByEmail,
   findByUsername,
+  createAdmin,
   update
 }

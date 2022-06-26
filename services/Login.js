@@ -9,7 +9,7 @@ const login = async (req, res, next) => {
     const { email, password } = req.body
 
     const user = await User.findOne({ where: { email } })
-
+  
     if (!user) {
       return res.status(StatusCodes.NOT_FOUND).json({ message: ErrorMessages.userNotFound })
     }
@@ -18,7 +18,8 @@ const login = async (req, res, next) => {
       return res.status(StatusCodes.BAD_REQUEST).json({ message: ErrorMessages.wrongPassword })
     }
 
-    const token = await tokenGenerator(email, password)
+
+    const token = await tokenGenerator(email, password, user.role)
 
     return res.status(StatusCodes.OK).json({ token })
   } catch (err) {

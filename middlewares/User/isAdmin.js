@@ -5,8 +5,8 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
-module.exports = (req) => {
-  const { authorization } = req.body
+module.exports = (req, res, next) => {
+  const { authorization } = req.headers
   const secret = process.env.SECRET || 'secret'
 
   if (!authorization){
@@ -22,6 +22,11 @@ module.exports = (req) => {
       message: errorMessages.userNotFound
     })
   }
+  console.log(user);
 
-  return user.role === 'admin'
+  if (user.data.role !== 'admin') {
+    return res.status(StatusCodes.FORBIDDEN).end()
+  }
+
+  next()
 }
