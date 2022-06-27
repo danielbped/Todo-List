@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     content: DataTypes.STRING,
     status: DataTypes.STRING,
+    owner: DataTypes.STRING,
     updated: DataTypes.DATE,
     created: DataTypes.DATE,
   },

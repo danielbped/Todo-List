@@ -18,8 +18,7 @@ const login = async (req, res, next) => {
       return res.status(StatusCodes.BAD_REQUEST).json({ message: ErrorMessages.wrongPassword })
     }
 
-
-    const token = await tokenGenerator(email, password, user.role)
+    const token = await tokenGenerator({ email, password, role: user.role })
 
     return res.status(StatusCodes.OK).json({ token })
   } catch (err) {

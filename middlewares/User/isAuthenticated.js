@@ -5,7 +5,7 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
-module.exports = (req) => {
+module.exports = (req, res) => {
   const secret = process.env.SECRET || 'secret'
   const { authorization } = req.headers
 

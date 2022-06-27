@@ -1,13 +1,18 @@
 const { StatusCodes } = require('http-status-codes')
 const { Task } = require('../models')
 const ErrorMessages = require('../utils/ErrorMessages')
+const isAuthenticated = require('../middlewares/User/isAuthenticated')
+const { User } = require('../models')
 
 const create = async (req, res, next) => {
   try {
     const { title, content } = req.body
 
-    const task = { title, content, created: new Date(), updated: new Date(), status: 'UNDONE' }
+    const { data } = isAuthenticated(req, res);
 
+    const user = await User.findOne({ where: { email: data.email } })
+
+    const task = { title, content, created: new Date(), updated: new Date(), status: 'UNDONE', owner: user.id }
     const { id } = await Task.create(task)
 
     res.status(StatusCodes.CREATED).json({ id, ...task })
