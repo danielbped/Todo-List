@@ -5,6 +5,7 @@ const router = Router({ mergeParams: true })
 
 router.get('/', Task.getAll)
 router.get('/:id', Task.findById)
+router.get('/owner/:id', Task.findByOwnerId)
 router.post('/', Task.create)
 router.put('/:id', Task.update)
 router.delete('/:id', Task.remove)

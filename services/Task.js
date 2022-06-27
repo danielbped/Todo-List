@@ -15,7 +15,7 @@ const create = async (req, res, next) => {
     const task = { title, content, created: new Date(), updated: new Date(), status: 'UNDONE', owner: user.id }
     const { id } = await Task.create(task)
 
-    res.status(StatusCodes.CREATED).json({ id, ...task })
+    return res.status(StatusCodes.CREATED).json({ id, ...task })
   } catch (err) {
     next(err)
   }
@@ -25,7 +25,7 @@ const getAll = async (_req, res, next) => {
   try {
     const tasks = await Task.findAll()
 
-    res.status(StatusCodes.OK).json({ tasks })
+    return res.status(StatusCodes.OK).json({ tasks })
   } catch (err) {
     next(err)
   }
@@ -44,7 +44,24 @@ const findById = async (req, res, next) => {
         .json({ message: ErrorMessages.taskNotFound })
     }
 
-    res.status(StatusCodes.OK).json({ task })
+    return res.status(StatusCodes.OK).json({ task })
+  } catch (err) {
+    next(err)
+  }
+}
+
+const findByOwnerId = async (req, res, next) => {
+  try {
+    const { id } = req.params
+
+    const task = await Task.findOne({ where: { owner: id } })
+
+    if (!task) {
+      return res.status(StatusCodes.NOT_FOUND)
+        .json({ message: ErrorMessages.taskNotFound })
+    }
+
+    return res.status(StatusCodes.OK).json({ task })
   } catch (err) {
     next(err)
   }
@@ -59,14 +76,14 @@ const remove = async (req, res, next) => {
     })
 
     if (!task) {
-      res.status(StatusCodes.NOT_FOUND).json({ message: ErrorMessages.taskNotFound })
+      return res.status(StatusCodes.NOT_FOUND).json({ message: ErrorMessages.taskNotFound })
     }
 
     await Task.destroy({
       where: { id }
     })
 
-    res.status(StatusCodes.OK).end()
+    return res.status(StatusCodes.OK).end()
   } catch (err) {
     next(err)
   }
@@ -82,7 +99,7 @@ const update = async (req, res, next) => {
     })
 
     if (!task) {
-      res.status(StatusCodes.NOT_FOUND).json({ message: ErrorMessages.taskNotFound })
+      return res.status(StatusCodes.NOT_FOUND).json({ message: ErrorMessages.taskNotFound })
     }
 
     const updatedTask = { title, content, updated: new Date(), status }
@@ -92,7 +109,7 @@ const update = async (req, res, next) => {
       { where: { id } }
     )
 
-    res.status(StatusCodes.OK).json({ updatedTask })
+    return res.status(StatusCodes.OK).json({ updatedTask })
   } catch (err) {
     next(err)
   }
@@ -103,5 +120,6 @@ module.exports = {
   getAll,
   findById,
   remove,
-  update
+  update,
+  findByOwnerId
 }
