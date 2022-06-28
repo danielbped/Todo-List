@@ -10,4 +10,5 @@ module.exports = {
   authorizationNotFound: 'Authorization not found',
   usernameAlreadyExists: 'User with this username already exists',
   emailAlreadyRegistered: 'Email already registered',
+  emptyTitle: 'Title must not be empty',
 }
