@@ -10,12 +10,14 @@ const create = async (req, res, next) => {
 
     const { data } = isAuthenticated(req, res);
 
-    const user = await User.findOne({ where: { email: data.email } })
-
-    const task = { title, content, created: new Date(), updated: new Date(), status: 'UNDONE', owner: user.id }
-    const { id } = await Task.create(task)
-
-    return res.status(StatusCodes.CREATED).json({ id, ...task })
+    if (data) {
+      const user = await User.findOne({ where: { email: data.email } })
+  
+      const task = { title, content, created: new Date(), updated: new Date(), status: 'UNDONE', owner: user.id }
+      const { id } = await Task.create(task)
+  
+      return res.status(StatusCodes.CREATED).json({ id, ...task })
+    }
   } catch (err) {
     next(err)
   }
